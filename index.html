@@ -368,6 +368,34 @@ main{padding:12px 18px}h1{font-size:22px;letter-spacing:-.5px;margin:4px 0 3px}
  .stat{padding:10px}.stat strong{font-size:17px}
  .tour-grid{grid-template-columns:1fr}
 }
+
+/* Bố cục gọn, ưu tiên danh sách đại lý */
+header{position:relative;padding-top:8px;padding-bottom:8px}
+.tools-menu{margin:0;padding:0;border:0;background:transparent}
+.tools-menu>summary{font-size:12px;padding:8px 11px;border:1px solid #d8e0d8;border-radius:8px;list-style:none}
+.tools-menu>summary::after{content:' ▾'}
+.tools-content{position:absolute;right:16px;top:calc(100% + 4px);width:min(460px,calc(100vw - 32px));background:white;border:1px solid #d8e0d8;box-shadow:0 10px 30px #21332922;border-radius:12px;padding:15px;z-index:20}
+.tools-content .toolbar{align-items:flex-start;flex-wrap:wrap}.tools-content p{font-size:11px}
+.hero{padding:9px 14px}.hero .eyebrow{display:none}.hero h1{font-size:20px}.hero p{font-size:11px}
+.program-overview{margin:9px 0;padding:11px 14px;background:#fff;border:1px solid #dce4d7;border-radius:10px}
+.program-overview>summary{font-size:12px}.program-overview>h2{font-size:15px}
+.dealer-toolbar{display:flex;flex-wrap:wrap}.dealer-toolbar input{flex:1;min-width:170px}
+.cards{display:grid;grid-template-columns:1fr;gap:8px}
+details.dealer-card{padding:0;margin:0;border-radius:10px;overflow:hidden;background:white}
+.dealer-summary{display:flex;align-items:center;gap:12px;padding:13px 16px;list-style:none;cursor:pointer}
+.dealer-summary::-webkit-details-marker{display:none}
+.dealer-number{display:grid;place-items:center;flex:none;width:29px;height:29px;border-radius:8px;background:#eaf0e4;color:#48633d;font-size:12px}
+.dealer-heading{flex:1;min-width:0}.dealer-heading>b{font-size:14px}.dealer-totals{display:block;font-size:11px;color:#778a6c;font-weight:400;line-height:1.7;margin-top:3px}
+.dealer-toggle{font-size:11px;color:#48633d;white-space:nowrap;padding:6px 9px;background:#f1f5ed;border-radius:6px}
+.dealer-toggle:after{content:'Mở rộng ＋'}.dealer-card[open]>.dealer-summary .dealer-toggle:after{content:'Rút gọn −'}
+.dealer-card[open]>.dealer-summary{border-bottom:1px solid #e4eadd;background:#f8faf5}
+.dealer-body{padding:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 20px}
+.dealer-body>.row:first-child{grid-column:1/-1;margin-bottom:8px}
+.dealer-body>h3,.dealer-body>.money,.dealer-body>.muted,.dealer-body>.track,.dealer-body>.next,.dealer-body>.milestones{grid-column:1}
+.dealer-body>.tour-detail{grid-column:2;grid-row:2/9;margin-top:0}
+.dealer-body>.tour-detail:last-child{grid-column:3}
+.dealer-body h3{font-size:13px;margin:6px 0}
+@media(max-width:750px){.dealer-body{display:block}.dealer-body>.tour-detail{margin-top:16px}.dealer-summary{padding:11px;gap:8px}.dealer-totals{font-size:10px}.dealer-toggle{font-size:10px;padding:5px}.tools-content{right:10px}header{flex-direction:row;align-items:center}.sub{display:none}}
 </style>
 </head>
 
@@ -380,26 +408,12 @@ main{padding:12px 18px}h1{font-size:22px;letter-spacing:-.5px;margin:4px 0 3px}
       <div class="sub">QUÀ TẶNG & DU LỊCH ĐẠI LÝ</div>
     </div>
   </div>
-  <div class="actions">
+  <details class="tools-menu"><summary>Công cụ & nguồn dữ liệu</summary><div class="tools-content"><div class="actions">
     <button id="backup">Sao lưu</button>
     <button id="csv">Xuất báo cáo</button>
     <button id="open-import">Nhập Excel</button>
     <button class="primary" id="open-google">Google Sheets</button>
-  </div>
-</header>
-
-<main>
-  <div id="message" role="status" aria-live="polite"></div>
-
-  <div class="hero">
-    <div>
-      <div class="eyebrow">QUẢN LÝ TIẾN ĐỘ DOANH SỐ</div>
-      <h1>Quà tặng & du lịch đại lý</h1>
-      <p>Quà tặng: 22–31/10/2026 &nbsp; · &nbsp; Du lịch: 23/10/2026–23/01/2027</p>
-    </div>
-  </div>
-
-  <div class="toolbar">
+  </div>  <div class="toolbar">
     <div>
       <b>Nguồn đơn hàng: Google Sheets</b>
       <p id="source-status" class="muted">
@@ -409,15 +423,37 @@ main{padding:12px 18px}h1{font-size:22px;letter-spacing:-.5px;margin:4px 0 3px}
     <button id="sync-google">Cập nhật từ Google Sheets</button>
   </div>
 
-  <div class="stats" id="stats"></div>
+</div></details>
+</header>
+
+<main>
+  <div id="message" role="status" aria-live="polite"></div>
+
+  <div class="hero">
+    <div>
+      <div class="eyebrow">QUẢN LÝ TIẾN ĐỘ DOANH SỐ</div>
+      <h1>Quà tặng & du lịch đại lý</h1>
+      <p>3 chương trình riêng: Quà tặng · Du lịch Hương Anh · Du lịch Sharp</p>
+    </div>
+  </div>
+
+  <details class="program-overview"><summary>3 chương trình · Điều kiện & tổng quan doanh số</summary><h2 style="margin-top:18px">1. Quà tặng · 22–31/10/2026</h2><p class="muted">Doanh số đủ điều kiện, gồm VAT 8%. Doanh số Sharp vẫn được cộng quà trong kỳ.</p><div class="stats" id="stats"></div>
 
   <section class="tour-panel" aria-label="Chương trình du lịch">
-    <h2>Du lịch đại lý · 23/10/2026 – 23/01/2027</h2>
-    <p class="muted">Măng Đen: từ 1,2 tỷ · Miền Bắc hoặc Trung Quốc: từ 700 triệu · Từ 500 triệu đến dưới 700 triệu: tủ lạnh Electrolux nhỏ. Sáu đại lý có mức áp riêng theo bảng chỉ tiêu.</p>
-    <p class="tour-small">Mỗi đại lý nhận tối đa một tour cao nhất. Doanh số không tính trùng với chương trình du lịch Sharp. Gói bày mẫu SSUB, KSUB, Basic Panasonic vẫn được tính doanh số du lịch.</p>
+    <h2>2. Du lịch Hương Anh · 23/10/2026 – 23/01/2027</h2>
+    <p class="muted">Măng Đen: từ 1,2 tỷ · Mộc Châu: từ 700 triệu · Từ 500 triệu đến dưới 700 triệu: tủ lạnh Electrolux nhỏ. Sáu đại lý có mức áp riêng theo bảng chỉ tiêu.</p>
+    <p class="tour-small">Mỗi đại lý nhận tối đa một tour cao nhất. Tủ lạnh và máy giặt Sharp từ 01/10–31/12/2026 được tách sang chương trình Sharp, không cộng tour Hương Anh. Doanh số tour Hương Anh giữ cách tính gồm VAT 8% của app gốc. Gói bày mẫu SSUB, KSUB, Basic Panasonic vẫn được tính doanh số du lịch.</p>
     <div id="tour-stats" class="tour-grid"></div>
   </section>
 
+  <section class="tour-panel" aria-label="Chương trình du lịch Sharp" style="border-color:#d49d9d;background:#fff6f4">
+    <h2>3. Du lịch Sharp · 01/10–31/12/2026</h2>
+    <p><b>Mục tiêu: 250.000.000 ₫ chưa VAT</b> · Chỉ tủ lạnh và máy giặt Sharp.</p>
+    <p class="muted">Hướng dẫn theo tháng: T10 80 triệu · T11 80 triệu · T12 90 triệu (chưa VAT). Xét tổng 250 triệu; các mức tháng chỉ để theo dõi.</p>
+    <p>Thưởng 1 chuyến Đà Nẵng do Sharp Việt Nam tổ chức · Tối đa 1 suất/đại lý · Hạn đăng ký 31/10/2026.</p>
+    <p class="tour-small">Tiền nguồn đã xác nhận gồm VAT 8% được chia 1,08; chỉ làm tròn khi hiển thị. Đạt doanh số cần được đối chiếu đăng ký và xác nhận thưởng. Dòng thiếu hãng hoặc loại sản phẩm rõ ràng chưa được tính Sharp.</p>
+    <div id="sharp-stats" class="tour-grid"></div>
+  </section>
   <div class="note">
     <b>Khách S‑VIP: Hùng Thanh và Tuấn Ngoan.</b>
     Chương trình quà tặng 22–31/10 KHÔNG tính doanh số gói bày mẫu SSUB, KSUB, Basic Panasonic; chương trình du lịch VẪN tính.
@@ -428,7 +464,8 @@ main{padding:12px 18px}h1{font-size:22px;letter-spacing:-.5px;margin:4px 0 3px}
     không tính mốc này trong thanh cộng dồn.
   </div>
 
-  <div class="toolbar">
+  </details>
+  <div class="toolbar dealer-toolbar">
     <input
       type="search"
       id="search"
@@ -447,6 +484,7 @@ main{padding:12px 18px}h1{font-size:22px;letter-spacing:-.5px;margin:4px 0 3px}
       <option value="name">Tên khách A–Z</option>
     </select>
     <button id="add" class="primary">+ Bổ sung doanh số</button>
+    <button id="toggle-dealers" aria-expanded="false">Mở rộng tất cả</button>
   </div>
 
   <div id="cards" class="cards"></div>
@@ -469,7 +507,7 @@ main{padding:12px 18px}h1{font-size:22px;letter-spacing:-.5px;margin:4px 0 3px}
       >
       <select id="line-period" aria-label="Kỳ dữ liệu">
         <option value="campaign">Trong kỳ quà tặng</option>
-        <option value="travel">Trong kỳ du lịch</option>
+        <option value="travel">Trong kỳ du lịch Hương Anh</option><option value="sharp">Trong kỳ du lịch Sharp</option>
         <option value="all">Tất cả ngày</option>
       </select>
     </div>
@@ -538,7 +576,7 @@ main{padding:12px 18px}h1{font-size:22px;letter-spacing:-.5px;margin:4px 0 3px}
       </label>
       <label>
         Ngày ghi nhận
-        <input type="date" name="date" value="2026-10-23" min="2026-10-22" max="2027-01-23" required>
+        <input type="date" name="date" value="2026-10-23" min="2026-10-01" max="2027-01-23" required>
       </label>
       <label>
         Thành tiền (VND)
@@ -679,6 +717,8 @@ const START = "2026-10-22";
 const END = "2026-10-31";
 const TOUR_START = "2026-10-23";
 const TOUR_END = "2027-01-23";
+const SHARP_START = "2026-10-01", SHARP_END = "2026-12-31", SHARP_TARGET = 250000000;
+const SHARP_MONTHS = {"2026-10":80000000,"2026-11":80000000,"2026-12":90000000};
 const TOUR_DEFAULT = {mangDen:1200000000, north:700000000};
 // Các mức ở cột H/I của bảng Chỉ tiêu doanh số du lịch, đơn vị gốc: triệu đồng.
 const TOUR_CUSTOM = [
@@ -749,6 +789,25 @@ let data = {
   imports: []
 };
 
+const expandedDealers = new Set();
+document.addEventListener("toggle", event => {
+  const card = event.target;
+  if (!card.matches?.(".dealer-card")) return;
+  if(card.open) expandedDealers.add(card.dataset.dealer); else expandedDealers.delete(card.dataset.dealer);
+  updateDealerToggle();
+}, true);
+function updateDealerToggle() {
+  const cards = [...document.querySelectorAll('.dealer-card')];
+  const allOpen = cards.length > 0 && cards.every(card=>card.open);
+  $("#toggle-dealers").textContent = allOpen ? "Rút gọn tất cả" : "Mở rộng tất cả";
+  $("#toggle-dealers").setAttribute("aria-expanded", String(allOpen));
+}
+$("#toggle-dealers").onclick = () => {
+  const cards = [...document.querySelectorAll('.dealer-card')];
+  const open = !cards.every(card=>card.open);
+  cards.forEach(card=>{card.open=open; if(open)expandedDealers.add(card.dataset.dealer);else expandedDealers.delete(card.dataset.dealer);});
+  updateDealerToggle();
+};
 let pending = null;
 let linePage = 0;
 let googlePending = null;
@@ -866,7 +925,24 @@ const inPeriod = line =>
 const inTourPeriod = line => line.date >= TOUR_START && line.date <= TOUR_END;
 const baseEligible = line => !line.cancelled && line.vat && decision(line) === "include";
 const eligible = line => baseEligible(line) && inPeriod(line) && !isDisplayPackage(line);
-const eligibleTour = line => baseEligible(line) && inTourPeriod(line);
+const inSharpPeriod = line => line.date >= SHARP_START && line.date <= SHARP_END;
+function isSharpProduct(line) {
+  const text = norm(line.product + " " + line.brand);
+  return /\bsharp\b/.test(text) && /\btu lanh\b|\bmay giat\b/.test(norm(line.product));
+}
+const sharpAssigned = line => inSharpPeriod(line) && isSharpProduct(line);
+const eligibleSharp = line => baseEligible(line) && sharpAssigned(line);
+const eligibleTour = line => baseEligible(line) && inTourPeriod(line) && !sharpAssigned(line);
+const sharpNet = line => line.amount * 100 / 108;
+const sharpStatus = total => total >= SHARP_TARGET ? "Đạt doanh số 1 chuyến Đà Nẵng — cần đối chiếu đăng ký" : "Chưa đạt doanh số Sharp";
+function sharpLineStatus(line) {
+  if(line.cancelled) return "Đã hủy";
+  if(!inSharpPeriod(line)) return "Ngoài kỳ Sharp";
+  if(!isSharpProduct(line)) return "Không xác định là tủ lạnh/máy giặt Sharp";
+  if(!line.vat) return "Chờ VAT";
+  if(decision(line)!=="include") return "Chờ đối soát / bị loại";
+  return "Được cộng: " + money(sharpNet(line)) + " chưa VAT";
+}
 
 function tourRules(name) {
   const found = TOUR_CUSTOM.find(row =>
@@ -877,7 +953,7 @@ function tourRules(name) {
 
 function travelStatus(total, rules) {
   if (rules.mangDen != null && total >= rules.mangDen) return "Đạt tour Măng Đen";
-  if (total >= rules.north) return "Đạt tour Miền Bắc hoặc Trung Quốc";
+  if (total >= rules.north) return "Đạt tour Mộc Châu";
   if (total >= 500000000 && !rules.key) return "Đạt quà tủ lạnh Electrolux nhỏ";
   return "Chưa đạt tour";
 }
@@ -899,7 +975,8 @@ function customers() {
         total: 0,
         count: 0,
         tourTotal: 0,
-        tourCount: 0
+        tourCount: 0,
+        sharpTotal: 0, sharpMonths: {"2026-10":0,"2026-11":0,"2026-12":0}
       });
     }
   }
@@ -908,6 +985,7 @@ function customers() {
     const customer = map.get(customerKey(line.customer));
     if (eligible(line)) {customer.total += line.amount; customer.count++;}
     if (eligibleTour(line)) {customer.tourTotal += line.amount; customer.tourCount++;}
+    if (eligibleSharp(line)) {customer.sharpTotal += sharpNet(line); customer.sharpMonths[line.date.slice(0,7)] += sharpNet(line);}
   }
 
   return [...map.values()].map(customer => ({
@@ -934,6 +1012,7 @@ function render() {
   $("#tour-stats").innerHTML =
     `<div class="tour-box"><span class="muted">Doanh số du lịch hợp lệ</span><b>${money(all.reduce((sum,c)=>sum+c.tourTotal,0))}</b><span class="tour-small">${tourActive.length} đại lý có doanh số trong kỳ</span></div>` +
     `<div class="tour-box"><span class="muted">Đại lý đạt tour</span><b>${tourWinners.length}</b><span class="tour-small">Tính theo mức riêng / mức chung, mỗi đại lý một tour cao nhất</span></div>`;
+  $("#sharp-stats").innerHTML = '<div class="tour-box">Doanh số Sharp chưa VAT<b>' + money(all.reduce((s,c)=>s+c.sharpTotal,0)) + '</b></div><div class="tour-box">Đại lý đạt doanh số<b>' + all.filter(c=>c.sharpTotal>=SHARP_TARGET).length + '</b><span class="tour-small">Cần đối chiếu đăng ký đúng hạn</span></div>';
   const met = all.filter(customer => customer.met.length > 0);
 
   $("#source-status").textContent = data.googleState
@@ -1017,7 +1096,7 @@ function render() {
   });
 
   $("#cards").innerHTML = list.length
-    ? list.map(customer => {
+    ? list.map((customer, index) => {
         const target =
           customer.next?.[0] ||
           RULES[customer.tier].at(-1)[0];
@@ -1038,14 +1117,15 @@ function render() {
          const tourStatus = travelStatus(customer.tourTotal, tourRule);
          const tourNext = customer.tourTotal < tourRule.north ? tourRule.north : (tourRule.mangDen || null);
          const tourPct = tourNext ? Math.min(100, 100 * customer.tourTotal / tourNext) : 100;
-         const tourDetail = `<div class="tour-detail"><strong>Du lịch 23/10–23/01</strong>` +
+         const tourDetail = `<div class="tour-detail"><strong>2. Du lịch Hương Anh · 23/10–23/01</strong>` +
            `<div class="tour-small">Doanh số tính tour: <b>${money(customer.tourTotal)}</b></div>` +
            `<div class="tour-small">${esc(tourStatus)}</div>` +
            `<div class="tour-meter"><div style="width:${tourPct.toFixed(1)}%"></div></div>` +
-           `<div class="tour-small">Mốc Miền Bắc/TQ: ${money(tourRule.north)} · Măng Đen: ${tourRule.mangDen == null ? "Không áp riêng" : money(tourRule.mangDen)}</div>` +
+           `<div class="tour-small">Mốc Mộc Châu: ${money(tourRule.north)} · Măng Đen: ${tourRule.mangDen == null ? "Không áp riêng" : money(tourRule.mangDen)}</div>` +
            (tourNext ? `<div class="tour-small">Còn ${money(Math.max(0,tourNext-customer.tourTotal))} đến mốc tiếp theo</div>` : "") +
            `</div>`;
 
+const sharpDetail = '<div class="tour-detail"><strong>3. Du lịch Sharp · 01/10–31/12/2026</strong><div class="tour-small">Doanh số chưa VAT: <b>' + money(customer.sharpTotal) + '</b> / ' + money(SHARP_TARGET) + '</div><div class="tour-meter"><div style="width:' + Math.max(0,Math.min(100,customer.sharpTotal/SHARP_TARGET*100)) + '%"></div></div><div class="tour-small">' + sharpStatus(customer.sharpTotal) + ' · Còn ' + money(Math.max(0,SHARP_TARGET-customer.sharpTotal)) + '</div>' + Object.entries(SHARP_MONTHS).map(([month,target])=>'<div class="tour-small">T'+Number(month.slice(5))+': '+money(customer.sharpMonths[month])+' / '+money(target)+' chưa VAT (hướng dẫn)</div>').join('') + '<div class="tour-small">1 suất/đại lý · Đăng ký trước hết 31/10/2026</div></div>';
 const milestones = RULES[customer.tier]
           .map(([threshold, gift]) => {
             const reached = customer.total >= threshold;
@@ -1068,9 +1148,10 @@ const milestones = RULES[customer.tier]
           .join("");
 
         return (
-          '<article class="card ' +
+          '<details class="card dealer-card ' +
           (customer.tier === "svip" ? "vip" : "") +
-          '">' +
+          '" data-dealer="' + esc(customerKey(customer.name)) + '"' + (expandedDealers.has(customerKey(customer.name)) ? ' open' : '') + '>' +
+            '<summary class="dealer-summary"><span class="dealer-number">' + (index + 1) + '</span><span class="dealer-heading"><b>' + esc(customer.name) + '</b><span class="dealer-totals">Quà: ' + money(customer.total) + ' · Hương Anh: ' + money(customer.tourTotal) + ' · Sharp: ' + money(customer.sharpTotal) + ' (chưa VAT)</span></span><span class="dealer-toggle"></span></summary><div class="dealer-body">' +
             '<div class="row">' +
               '<div class="name">' +
                 esc(customer.name) +
@@ -1083,7 +1164,7 @@ const milestones = RULES[customer.tier]
                 ) +
               "</span>" +
             "</div>" +
-            '<div class="money">' +
+            '<h3>1. Quà tặng · 22–31/10/2026</h3><div class="money">' +
               money(customer.total) +
             "</div>" +
             '<div class="row muted">' +
@@ -1111,8 +1192,8 @@ const milestones = RULES[customer.tier]
             '<div class="milestones">' +
                milestones +
              "</div>" +
-             tourDetail +
-           "</article>"
+             tourDetail + sharpDetail +
+           "</div></details>"
         );
       }).join("")
     : (
@@ -1144,12 +1225,13 @@ const milestones = RULES[customer.tier]
     '<option value="' + esc(customer.name) + '">'
   ).join("");
 
+  updateDealerToggle();
   renderLines();
 }
 
 function renderLines() {
   const current = data.lines.filter(line =>
-    !line.cancelled && (inPeriod(line) || inTourPeriod(line))
+    !line.cancelled && (inPeriod(line) || inTourPeriod(line) || inSharpPeriod(line))
   );
 
   $("#quality").innerHTML =
@@ -1170,7 +1252,7 @@ function renderLines() {
     .filter(line =>
       (
         $("#line-period").value === "all" ||
-                 ($("#line-period").value === "travel" ? inTourPeriod(line) : inPeriod(line))
+                 ($("#line-period").value === "sharp" ? inSharpPeriod(line) : $("#line-period").value === "travel" ? inTourPeriod(line) : inPeriod(line))
       ) &&
       norm(line.customer + " " + line.product).includes(query)
     )
@@ -1187,7 +1269,7 @@ function renderLines() {
       "<th>Ngày</th>" +
       "<th>Khách / sản phẩm</th>" +
       "<th>Thành tiền</th>" +
-             "<th>Quà tặng</th><th>Du lịch</th>" +
+             "<th>Quà tặng</th><th>Hương Anh</th><th>Sharp (chưa VAT)</th>" +
       "<th>Xử lý</th>" +
     "</tr></thead><tbody>" +
     list
@@ -1204,7 +1286,7 @@ function renderLines() {
                 : decision(line) === "review"
                   ? "Chờ đối soát"
                   : isDisplayPackage(line) ? "Gói bày mẫu: không cộng" : "Được cộng";
-         const tourLineStatus = line.cancelled ? "Đã hủy" : !inTourPeriod(line) ? "Ngoài kỳ du lịch" : decision(line) === "exclude" ? "Loại Daikin" : !line.vat ? "Chờ VAT" : decision(line) === "review" ? "Chờ đối soát" : "Được cộng";
+         const tourLineStatus = line.cancelled ? "Đã hủy" : !inTourPeriod(line) ? "Ngoài kỳ du lịch" : sharpAssigned(line) ? "Tách sang Sharp" : decision(line) === "exclude" ? "Loại Daikin" : !line.vat ? "Chờ VAT" : decision(line) === "review" ? "Chờ đối soát" : "Được cộng";
 
         let buttons = "";
 
@@ -1244,7 +1326,7 @@ function renderLines() {
             "</td>" +
             "<td>" + money(line.amount) + "</td>" +
                          "<td>" + status + "</td>" +
-             "<td>" + tourLineStatus + "</td>" +
+             "<td>" + tourLineStatus + "</td><td>" + sharpLineStatus(line) + "</td>" +
             "<td>" + buttons + "</td>" +
           "</tr>"
         );
@@ -1338,7 +1420,7 @@ $("#entry-form").onsubmit = event => {
     }
 
     if (!inPeriod(fields)) {
-             if (!inTourPeriod(fields)) throw Error("Chỉ nhập ngày trong kỳ quà tặng hoặc du lịch (22/10/2026–23/01/2027).");
+             if (!inTourPeriod(fields) && !inSharpPeriod(fields)) throw Error("Chỉ nhập ngày trong kỳ các chương trình (01/10/2026–23/01/2027).");
     }
 
     const existing = customers().find(customer =>
@@ -2262,7 +2344,7 @@ $("#csv").onclick = () => {
       "Mốc đã đạt",
       "Mốc tiếp theo",
              "Còn thiếu",
-       "Doanh số tour", "Mốc tour Miền Bắc/TQ", "Mốc tour Măng Đen", "Trạng thái tour"
+       "Doanh số tour Hương Anh", "Mốc tour Mộc Châu", "Mốc tour Măng Đen", "Trạng thái tour Hương Anh", "Sharp chưa VAT", "Sharp T10 chưa VAT", "Sharp T11 chưa VAT", "Sharp T12 chưa VAT", "Trạng thái Sharp"
     ],
     ...customers().map(customer => [
       customer.name,
@@ -2274,7 +2356,7 @@ $("#csv").onclick = () => {
         .join("; "),
       customer.next?.[0] || "Đạt cao nhất",
              customer.next ? customer.next[0] - customer.total : 0,
-       customer.tourTotal, customer.tourRule.north, customer.tourRule.mangDen ?? "Không áp riêng", travelStatus(customer.tourTotal, customer.tourRule)
+       customer.tourTotal, customer.tourRule.north, customer.tourRule.mangDen ?? "Không áp riêng", travelStatus(customer.tourTotal, customer.tourRule), customer.sharpTotal, ...Object.values(customer.sharpMonths), sharpStatus(customer.sharpTotal)
     ])
   ];
 
