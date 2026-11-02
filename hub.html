@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Việt Tuấn Intelligence Hub</title>
+<style>
+:root{font-family:Inter,system-ui,"Segoe UI",Arial,sans-serif;background:#f4f7f5;color:#17352b;font-size:14px}
+*{box-sizing:border-box}body{margin:0}button,input,select{font:inherit}button{cursor:pointer}
+.app{display:grid;grid-template-columns:245px minmax(0,1fr);min-height:100vh}
+aside{background:#123a2b;color:#edf8f0;padding:22px 14px;display:flex;flex-direction:column;gap:20px}
+.logo{padding:8px 12px;font-size:21px;font-weight:850;letter-spacing:-.4px}.logo small{display:block;font-size:10px;font-weight:500;letter-spacing:1.8px;color:#a3c9b7;margin-top:5px}
+nav{display:grid;gap:6px}.nav{border:0;color:#cfe1d7;background:transparent;text-align:left;padding:13px 15px;border-radius:10px}.nav.active,.nav:hover{background:#285c46;color:#fff}.nav span{margin-right:10px}
+aside footer{margin-top:auto;padding:12px;color:#b1cebd;font-size:12px;line-height:1.7}aside a{color:#e2f8e9}
+main{min-width:0;padding:28px clamp(16px,3vw,44px);max-width:1600px;width:100%;margin:auto}
+.top{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+h1{font-size:29px;letter-spacing:-.7px;margin:4px 0 9px}p{line-height:1.6}.sub{color:#76857d;margin:0}.pill{font-size:11px;border-radius:50px;padding:8px 11px;background:#e8efe9;color:#2b5741;display:inline-block}
+.actions{display:flex;gap:8px;flex-wrap:wrap}.actions a,.actions button{border:1px solid #d5e2da;color:#24563c;background:#fff;text-decoration:none;padding:10px 14px;border-radius:9px}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:22px 0}select,input{background:white;border:1px solid #d8e2da;padding:10px;border-radius:9px;color:#24533b;max-width:100%}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:15px 0}.kpi,.panel{background:#fff;border:1px solid #e0e9e2;border-radius:15px;padding:22px;box-shadow:0 3px 15px rgba(20,40,30,.025)}.kpi small{color:#75877c}.kpi strong{display:block;font-size:28px;margin-top:12px}.kpi em{display:block;font-size:12px;font-style:normal;color:#8c9d91;margin-top:6px}
+.grid{display:grid;grid-template-columns:1.4fr 1fr;gap:16px;margin:16px 0}.panel h2{font-size:17px;margin:0 0 15px}.empty{min-height:230px;display:flex;justify-content:center;align-items:center;flex-direction:column;background:#f7faf8;border:1px dashed #cbded0;border-radius:12px;color:#7d9684;text-align:center;padding:20px;gap:9px}.empty .glyph{font-size:38px}.empty p{margin:0;max-width:440px}
+.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.feature{border:1px solid #dfe8e1;border-radius:12px;padding:18px;background:#fff}.feature h3{font-size:15px;margin:0 0 8px}.feature p{color:#718276;font-size:13px;margin:0}
+.notice{padding:14px 17px;background:#fff8e7;color:#775d23;border:1px solid #e8dbaa;border-radius:11px;line-height:1.6;margin:15px 0}
+table{border-collapse:collapse;width:100%;font-size:13px}th,td{text-align:left;border-bottom:1px solid #e8eee9;padding:13px}th{color:#607468;background:#f7faf8}.overflow{overflow:auto}
+.section{display:none}.section.active{display:block}.tag{background:#edf4ed;padding:6px 8px;border-radius:7px;color:#3c6e4b;font-size:11px}
+@media(max-width:980px){.app{grid-template-columns:1fr}aside{padding:14px;gap:8px}nav{grid-template-columns:repeat(4,1fr)}.nav{padding:11px 6px;text-align:center;font-size:11px}.nav span{display:block;margin:0 0 4px}aside footer{display:none}.logo{font-size:17px}.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:650px){main{padding:20px 14px}.grid,.card-grid{grid-template-columns:1fr}.top h1{font-size:23px}.kpi{padding:15px}.kpi strong{font-size:23px}nav{grid-template-columns:repeat(4,1fr)}}
+</style>
+</head>
+<body>
+<div class="app">
+<aside>
+<div class="logo">VT INTELLIGENCE <small>BUSINESS COMMAND CENTER</small></div>
+<nav id="menu" aria-label="Các phân hệ">
+<button class="nav active" data-page="overview"><span>▦</span>Tổng quan</button>
+<button class="nav" data-page="sales"><span>▥</span>Doanh số</button>
+<button class="nav" data-page="customers"><span>♙</span>Đại lý 360°</button>
+<button class="nav" data-page="map"><span>◎</span>Bản đồ nhiệt</button>
+<button class="nav" data-page="ai"><span>✧</span>Chuyên gia AI</button>
+<button class="nav" data-page="routes"><span>↗</span>Tuyến thị trường</button>
+<button class="nav" data-page="reports"><span>▤</span>Báo cáo</button>
+<button class="nav" data-page="settings"><span>⚙</span>Quản trị</button>
+</nav>
+<footer>Khung giao diện v0.1<br>Chưa kết nối dữ liệu nghiệp vụ.<br><a href="./index.html">Mở ứng dụng chương trình hiện tại</a></footer>
+</aside>
+<main>
+<div class="top"><div><span class="pill">Việt Tuấn · Khung ứng dụng</span><h1 id="pageTitle">Trung tâm điều hành</h1><p class="sub" id="pageDesc">Tổng quan doanh số, khách hàng và tình hình thị trường.</p></div><div class="actions"><a href="./index.html">Quà tặng &amp; du lịch ↗</a><a href="https://warehouse.huonganhgroup.vn/dashboards" target="_blank" rel="noopener">Warehouse ↗</a></div></div>
+<div class="notice">Đây là bản khung để duyệt giao diện. Chỉ số chưa có dữ liệu được hiển thị “—”; không dùng số giả làm kết quả kinh doanh. Bản đồ nguồn bhver1 chưa tích hợp và chưa được chẩn đoán lỗi.</div>
+<section class="section active" id="overview">
+<div class="toolbar"><select aria-label="Kỳ"><option>Tháng này</option><option>Hôm nay</option><option>7 ngày</option><option>Quý này</option></select><select aria-label="Hãng"><option>Tất cả hãng</option><option>Panasonic</option><option>Toshiba</option><option>Sharp</option><option>Hitachi</option><option>Electrolux</option></select><select aria-label="Địa bàn"><option>Tất cả địa bàn</option></select></div>
+<div class="kpis"><div class="kpi"><small>Doanh số thuần</small><strong>—</strong><em>Chờ nguồn BRAVO / Warehouse</em></div><div class="kpi"><small>Tăng trưởng</small><strong>—</strong><em>Chờ quy tắc so sánh kỳ</em></div><div class="kpi"><small>Đại lý hoạt động</small><strong>—</strong><em>Chờ danh mục khách hàng</em></div><div class="kpi"><small>Cảnh báo cần xử lý</small><strong>—</strong><em>Chờ công cụ phân tích</em></div></div>
+<div class="grid"><div class="panel"><h2>Xu hướng doanh số</h2><div class="empty"><div class="glyph">▥</div><strong>Vùng biểu đồ</strong><p>Sẽ hiển thị doanh số theo thời gian, hãng, địa bàn và kho khi có dữ liệu đã đối soát.</p></div></div><div class="panel"><h2>AI phát hiện vấn đề</h2><div class="empty"><div class="glyph">✧</div><strong>Chưa có cảnh báo thực</strong><p>Vị trí hiển thị đại lý suy giảm, địa bàn bất thường và hành động ưu tiên.</p></div></div></div>
+<div class="card-grid"><div class="feature"><h3>Doanh số đa chiều</h3><p>Hãng → kho → địa bàn → đại lý → chứng từ.</p></div><div class="feature"><h3>Phân tích khách hàng</h3><p>Chu kỳ mua, doanh số giảm và cơ hội phát triển.</p></div><div class="feature"><h3>Bản đồ thị trường</h3><p>Module bản đồ từ bhver1 sau khi sửa lỗi.</p></div></div>
+</section>
+<section class="section" id="sales"><div class="panel"><h2>Sales Analytics</h2><div class="toolbar"><select><option>Tất cả hãng</option></select><select><option>Tất cả kho</option></select><select><option>Kỳ tháng</option></select></div><div class="overflow"><table><thead><tr><th>Hãng / Nhóm</th><th>Doanh số</th><th>Tăng trưởng</th><th>Đại lý mua</th></tr></thead><tbody><tr><td colspan="4">Chưa kết nối giao dịch và quy tắc KPI.</td></tr></tbody></table></div></div></section>
+<section class="section" id="customers"><div class="panel"><h2>Customer 360°</h2><div class="toolbar"><input type="search" placeholder="Tìm mã hoặc tên đại lý" disabled title="Chưa có dữ liệu khách hàng"><select><option>Tất cả địa bàn</option></select></div><div class="empty"><div class="glyph">♙</div><strong>Danh mục đại lý</strong><p>Hồ sơ mua hàng, công nợ, phân loại VT1/VH1, ghi chú, chăm sóc và điểm rủi ro sẽ xuất hiện ở đây.</p></div></div></section>
+<section class="section" id="map"><div class="panel"><h2>Market Intelligence · nguồn bhver1 <span class="tag">Chưa tích hợp</span></h2><div class="toolbar"><select><option>Lớp bản đồ: Đại lý</option><option>Doanh số</option><option>VT1 / VH1</option><option>Đối thủ</option></select><select><option>Tất cả tỉnh</option></select></div><div id="map-slot" class="empty" style="min-height:390px"><div class="glyph">◎</div><strong>Vị trí dành cho bản đồ nhiệt bhver1</strong><p>Giữ độc lập module bản đồ; chỉ kết nối sau khi kiểm tra repo nguồn, xác minh lỗi và đối chiếu mã khách hàng.</p></div></div></section>
+<section class="section" id="ai"><div class="panel"><h2>AI Business Analyst</h2><div class="empty"><div class="glyph">✧</div><strong>Chờ kết nối bộ công cụ truy vấn đã phân quyền</strong><p>Hỏi vì sao doanh số giảm, khách nào cần chăm sóc, cơ hội bán chéo và lập kế hoạch hành động. AI không tự tạo dữ liệu.</p></div></div></section>
+<section class="section" id="routes"><div class="panel"><h2>Route Intelligence</h2><div class="empty"><div class="glyph">↗</div><strong>Kế hoạch tuyến và nhật ký thị trường</strong><p>Danh sách khách cần ghé, mục tiêu chuyến đi, ghi chú và kết quả. Chưa kết nối GPS hoặc dịch vụ chỉ đường.</p></div></div></section>
+<section class="section" id="reports"><div class="panel"><h2>Báo cáo lãnh đạo</h2><div class="empty"><div class="glyph">▤</div><strong>Kho báo cáo</strong><p>Báo cáo điều hành, doanh số theo hãng, khu vực và kết quả chăm sóc đại lý.</p></div></div></section>
+<section class="section" id="settings"><div class="panel"><h2>Kết nối hệ thống &amp; quản trị</h2><div class="overflow"><table><thead><tr><th>Nguồn</th><th>Chức năng dự kiến</th><th>Trạng thái tại Hub</th></tr></thead><tbody><tr><td>BRAVO / Warehouse</td><td>Giao dịch, danh mục, công nợ</td><td>Chưa cấu hình</td></tr><tr><td>SmartSell / Mobile App</td><td>Đơn hàng, đại lý</td><td>Chưa cấu hình</td></tr><tr><td>bhver1</td><td>Bản đồ nhiệt thị trường</td><td>Chưa tích hợp</td></tr><tr><td>Bình Anh GPS</td><td>Hành trình xe</td><td>Chưa cấu hình</td></tr></tbody></table></div></div></section>
+</main>
+</div>
+<script>
+(()=>{const pages={overview:["Trung tâm điều hành","Tổng quan doanh số, khách hàng và tình hình thị trường."],sales:["Phân tích doanh số","Theo dõi doanh số đa chiều và xu hướng kinh doanh."],customers:["Hồ sơ đại lý 360°","Lịch sử kinh doanh, chăm sóc và tiềm năng phát triển khách hàng."],map:["Bản đồ nhiệt thị trường","Nguồn bản đồ sẽ lấy từ bhver1 sau khi xử lý lỗi."],ai:["Chuyên gia phân tích AI","Giải thích số liệu, tìm nguyên nhân và đề xuất hành động."],routes:["Quản lý tuyến thị trường","Kế hoạch thăm đại lý và đánh giá kết quả làm việc."],reports:["Trung tâm báo cáo","Báo cáo kinh doanh và điều hành."],settings:["Quản trị hệ thống","Kết nối dữ liệu, phân quyền và kiểm soát chất lượng."]};
+function select(page){if(!pages[page])page="overview";document.querySelectorAll(".section").forEach(x=>x.classList.toggle("active",x.id===page));document.querySelectorAll(".nav").forEach(x=>{const a=x.dataset.page===page;x.classList.toggle("active",a);x.setAttribute("aria-current",a?"page":"false")});document.getElementById("pageTitle").textContent=pages[page][0];document.getElementById("pageDesc").textContent=pages[page][1];history.replaceState(null,"","#"+page)}
+document.getElementById("menu").addEventListener("click",e=>{const b=e.target.closest("[data-page]");if(b)select(b.dataset.page)});select(location.hash.slice(1)||"overview");
+})();
+</script>
+</body></html>
