@@ -442,16 +442,16 @@ details.dealer-card{padding:0;margin:0;border-radius:10px;overflow:hidden;backgr
   <section class="tour-panel" aria-label="Chương trình du lịch">
     <h2>2. Du lịch Hương Anh · 23/10/2026 – 23/01/2027</h2>
     <p class="muted">Măng Đen: từ 1,2 tỷ · Mộc Châu: từ 700 triệu · Từ 500 triệu đến dưới 700 triệu: tủ lạnh Electrolux nhỏ. Sáu đại lý có mức áp riêng theo bảng chỉ tiêu.</p>
-    <p class="tour-small">Mỗi đại lý nhận tối đa một tour cao nhất. Tủ lạnh và máy giặt Sharp từ 01/10–31/12/2026 được tách sang chương trình Sharp, không cộng tour Hương Anh. Doanh số tour Hương Anh giữ cách tính gồm VAT 8% của app gốc. Gói bày mẫu SSUB, KSUB, Basic Panasonic vẫn được tính doanh số du lịch.</p>
+    <p class="tour-small">Mỗi đại lý nhận tối đa một tour cao nhất. Cộng toàn bộ doanh số hợp lệ trong kỳ, trừ sản phẩm hãng Daikin; bao gồm Sharp và đơn thuộc chương trình quà. Doanh số tour Hương Anh giữ cách tính gồm VAT 8% của app gốc. Gói bày mẫu SSUB, KSUB, Basic Panasonic vẫn được tính doanh số du lịch.</p>
     <div id="tour-stats" class="tour-grid"></div>
   </section>
 
   <section class="tour-panel" aria-label="Chương trình du lịch Sharp" style="border-color:#d49d9d;background:#fff6f4">
     <h2>3. Du lịch Sharp · 01/10–31/12/2026</h2>
-    <p><b>Mục tiêu: 250.000.000 ₫ chưa VAT</b> · Chỉ tủ lạnh và máy giặt Sharp.</p>
+    <p><b>Mục tiêu: 250.000.000 ₫ chưa VAT</b> · Toàn bộ sản phẩm hãng Sharp; hiển thị cho mọi đại lý.</p>
     <p class="muted">Hướng dẫn theo tháng: T10 80 triệu · T11 80 triệu · T12 90 triệu (chưa VAT). Xét tổng 250 triệu; các mức tháng chỉ để theo dõi.</p>
     <p>Thưởng 1 chuyến Đà Nẵng do Sharp Việt Nam tổ chức · Tối đa 1 suất/đại lý · Hạn đăng ký 31/10/2026.</p>
-    <p class="tour-small">Tiền nguồn đã xác nhận gồm VAT 8% được chia 1,08; chỉ làm tròn khi hiển thị. Đạt doanh số cần được đối chiếu đăng ký và xác nhận thưởng. Dòng thiếu hãng hoặc loại sản phẩm rõ ràng chưa được tính Sharp.</p>
+    <p class="tour-small">Tiền nguồn đã xác nhận gồm VAT 8% được chia 1,08; chỉ làm tròn khi hiển thị. Đạt doanh số cần được đối chiếu đăng ký và xác nhận thưởng. Dòng chưa xác định hãng Sharp chưa được tính. Việc tham gia chương trình do người dùng đối chiếu riêng.</p>
     <div id="sharp-stats" class="tour-grid"></div>
   </section>
   <div class="note">
@@ -927,20 +927,22 @@ const baseEligible = line => !line.cancelled && line.vat && decision(line) === "
 const eligible = line => baseEligible(line) && inPeriod(line) && !isDisplayPackage(line);
 const inSharpPeriod = line => line.date >= SHARP_START && line.date <= SHARP_END;
 function isSharpProduct(line) {
-  const text = norm(line.product + " " + line.brand);
-  return /\bsharp\b/.test(text) && /\btu lanh\b|\bmay giat\b/.test(norm(line.product));
+  return /\bsharp\b/.test(norm(line.brand) || norm(line.product));
 }
 const sharpAssigned = line => inSharpPeriod(line) && isSharpProduct(line);
-const eligibleSharp = line => baseEligible(line) && sharpAssigned(line);
-const eligibleTour = line => baseEligible(line) && inTourPeriod(line) && !sharpAssigned(line);
+// Tour độc lập với phân loại/gói quà; giữ kiểm tra hủy, VAT và sản phẩm.
+const tourBaseEligible = line => !line.cancelled && line.vat && !!norm(line.product);
+const isDaikinProduct = line => /\bdaikin\b/.test(norm(line.brand) || norm(line.product));
+const eligibleSharp = line => tourBaseEligible(line) && sharpAssigned(line);
+const eligibleTour = line => tourBaseEligible(line) && inTourPeriod(line) && !isDaikinProduct(line);
 const sharpNet = line => line.amount * 100 / 108;
 const sharpStatus = total => total >= SHARP_TARGET ? "Đạt doanh số 1 chuyến Đà Nẵng — cần đối chiếu đăng ký" : "Chưa đạt doanh số Sharp";
 function sharpLineStatus(line) {
   if(line.cancelled) return "Đã hủy";
   if(!inSharpPeriod(line)) return "Ngoài kỳ Sharp";
-  if(!isSharpProduct(line)) return "Không xác định là tủ lạnh/máy giặt Sharp";
+  if(!isSharpProduct(line)) return "Chưa xác định hãng Sharp";
   if(!line.vat) return "Chờ VAT";
-  if(decision(line)!=="include") return "Chờ đối soát / bị loại";
+  if(!norm(line.product)) return "Thiếu sản phẩm";
   return "Được cộng: " + money(sharpNet(line)) + " chưa VAT";
 }
 
@@ -1286,7 +1288,7 @@ function renderLines() {
                 : decision(line) === "review"
                   ? "Chờ đối soát"
                   : isDisplayPackage(line) ? "Gói bày mẫu: không cộng" : "Được cộng";
-         const tourLineStatus = line.cancelled ? "Đã hủy" : !inTourPeriod(line) ? "Ngoài kỳ du lịch" : sharpAssigned(line) ? "Tách sang Sharp" : decision(line) === "exclude" ? "Loại Daikin" : !line.vat ? "Chờ VAT" : decision(line) === "review" ? "Chờ đối soát" : "Được cộng";
+         const tourLineStatus = line.cancelled ? "Đã hủy" : !inTourPeriod(line) ? "Ngoài kỳ du lịch" : isDaikinProduct(line) ? "Loại Daikin" : !line.vat ? "Chờ VAT" : !norm(line.product) ? "Thiếu sản phẩm" : "Được cộng";
 
         let buttons = "";
 
