@@ -1,6 +1,6 @@
 # VT Intelligence Hub
 
-Ứng dụng: https://adamavaadam.github.io/phantichso/hub.html?v=hub3
+Ứng dụng: https://adamavaadam.github.io/phantichso/hub.html?v=hub3-1
 Repo: AdamAvaAdam/phantichso. Google Cloud Web OAuth Client ID dùng lại từ BHVer1.
 
 ## Bản hợp nhất
