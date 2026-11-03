@@ -16,4 +16,5 @@ jobs:
       - run: node test-tours.cjs
       - run: node test-hub.cjs
       - run: node test-login.cjs
+      - run: node test-login-flow.cjs
       - run: node test-auth.cjs
