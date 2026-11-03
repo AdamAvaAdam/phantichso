@@ -1,52 +1,44 @@
 # VT Intelligence Hub
 
-Mở `hub.html` trên GitHub Pages. `index.html` là ứng dụng quà tặng/du lịch cũ, giữ nguyên byte và nghiệp vụ.
+Ứng dụng: https://adamavaadam.github.io/phantichso/hub.html?v=hub3
+Repo: AdamAvaAdam/phantichso. Google Cloud Web OAuth Client ID dùng lại từ BHVer1.
 
-## Đã xây dựng
-- Giao diện responsive, Dashboard đầu đơn gồm VAT, biểu đồ theo ngày, địa bàn, khách dẫn đầu.
-- Bộ lọc thời gian, địa bàn, mã trạng thái, khách, đơn chứa hãng. Bộ lọc hãng tính TOÀN BỘ tiền đầu đơn chứa hãng, không giả phân bổ tiền dòng sau chiết khấu.
-- Customer 360 theo mã khách, thông tin liên hệ, hạng, nhân viên, lịch sử đơn trong bộ lọc.
-- Bản đồ nhiệt: tái sử dụng Leaflet và thuật toán ba vòng tròn/sqrt từ `AdamAvaAdam/BHVer1` commit `e8c33a10be4b7a2aecbbe134615430b8c0285b83`. Ghép mã khách với tab Định vị, xử lý số thập phân dấu phẩy, loại mã tọa độ trùng và tọa độ không hợp lệ. Không lấy số doanh số nhập tay từ tab định vị.
-- Kế hoạch tuyến: thêm/bỏ/sắp xếp khách, tải CSV chống công thức bảng tính. Chỉ trong phiên; chưa tính đường bộ hoặc đồng bộ nhiều máy.
-- Phân tích tự động có cơ sở tính toán, kiểm tra đơn chưa khớp khách và tiền không dương. AI hội thoại chưa được kết nối, UI ghi rõ.
+## Bản hợp nhất
+- Dashboard gọn, không slogan/banner; KPI ghi rõ triệu/tỷ đồng gồm VAT, bộ lọc thời gian/địa bàn/đơn chứa hãng/trạng thái/khách. Bộ lọc hãng tính toàn bộ đầu đơn chứa hãng, không tự phân bổ chiết khấu.
+- Customer 360, danh sách giao dịch và kế hoạch tuyến CSV.
+- Bản đồ nhanh giữ liên kết hồ sơ 360°. Chế độ **Bộ công cụ BHVer1** giữ kho/bán kính/nhóm phục vụ, khoảng cách đường xe chạy van/xe tải, khoanh tỉnh/huyện và nhiều tỉnh, ranh giới huyện năm 2020, nhãn đại lý, tuyến thị trường, đối soát, danh sách chưa định vị/chưa khớp và xuất/nhập thiết lập/XLSX. Bản đồ đầy đủ có thêm nút mở hồ sơ 360° và kỳ mặc định theo bộ lọc Hub. Chọn kỳ lịch dài hơn phạm vi đồng bộ sẽ báo chưa đủ dữ liệu.
+- Quà tặng/du lịch mở trong Hub, cùng dữ liệu đã tải. Giữ công thức gốc trong index.html, kiểm thử hồi quy trước/sau. Root/index ở cửa sổ chính chuyển vào Hub; không điều hướng ra ngoài khi mở chương trình. Đơn nhiều sản phẩm có chiết khấu chưa phân bổ hoặc dữ liệu thiếu không tự cộng vào chương trình; số đơn cần đối soát và phạm vi kỳ được thông báo. Kết quả chương trình là tạm tính theo mọi trạng thái nguồn; chưa có bảng nghĩa mã trạng thái để xác nhận hủy/hoàn tất.
+- AI hội thoại chưa kết nối dịch vụ; các nhận xét hiện có là phép tính từ dữ liệu, không giả là nội dung mô hình AI.
 
-## Kết nối riêng tư trên Pages
-Google Identity Services token model + Google Sheets REST API v4 `values:batchGet`, scopes `spreadsheets.readonly openid email`. Không dùng API Warehouse suy đoán, proxy công khai, API key, client secret hoặc service account trong trình duyệt. Token và dữ liệu chỉ nằm trong RAM, xóa khi đăng xuất/rời trang/hết phiên. Không có service worker, localStorage hoặc offline snapshot mới.
+## Ghi nhớ thiết bị
+Sau đăng nhập Google và tải thành công, snapshot được mã hóa AES-GCM trong IndexedDB cùng CryptoKey không xuất được của thiết bị/tài khoản. **Không lưu token Google, client secret hoặc mật khẩu.** Mở lại cùng trình duyệt tự mở bản lưu, không yêu cầu Google hay tải lại Sheet. Hết token vẫn xem/lọc bản lưu; bấm **Cập nhật dữ liệu** mới kết nối lại nếu cần.
 
-OAuth Client ID công khai được tái sử dụng từ BHVer1. Trước khi dùng, chủ dự án Google Cloud cần xác nhận:
-1. Sheets API đã bật; consent screen/test users được cấu hình.
-2. Web OAuth client cho phép origin `https://adamavaadam.github.io` (không thêm `/phantichso`). Với localhost QA, thêm `http://127.0.0.1:4173` nếu muốn thử OAuth tại máy.
-3. Google Sheet để Bị hạn chế, chỉ chia sẻ cho tài khoản được phép. App không thay đổi quyền Sheet. Scope readonly có thể đọc các Sheet tài khoản có quyền xem; mã ứng dụng chỉ gọi ID Sheet cố định.
-4. Người dùng bấm Kết nối Google rồi cấp quyền chỉ đọc. Connector trong chat không tự cung cấp quyền/token cho website.
+Bản lưu luôn ghi thời điểm dữ liệu thực sự được tải. Cập nhật lỗi giữ bản trước. Nhãn/kho/vùng, chỉnh sửa chương trình và kế hoạch tuyến lưu cùng tài khoản. Đăng xuất tắt tự mở; ghi chú vẫn có thể khôi phục sau khi chính tài khoản đó đăng nhập lại. **Nguồn & thiết bị → Xóa bản dữ liệu trên thiết bị** xóa snapshot và thiết lập trong bản lưu. Không tự chuyển giữa các máy. Xóa dữ liệu trình duyệt/chế độ riêng tư có thể làm mất bản lưu.
 
-Bản Pages công khai vỏ giao diện và quy tắc, Google thực thi quyền truy cập dữ liệu. Không cung cấp đăng nhập admin giả ở client. Nếu cần admin/password: chạy `secure-server.cjs` trên Node + HTTPS theo SECURITY_SETUP.md, và vẫn kết nối Google để đọc Sheet. Chưa triển khai máy chủ này lên dịch vụ ngoài vì chưa có hosting/runtime secrets được cấp.
+Mã hóa không thay bảo vệ thiết bị hoặc chống mã độc cùng origin. Việc tự mở bản lưu là lựa chọn ghi nhớ trên thiết bị tin cậy, không phải phiên Google được kiểm tra lại ở mỗi lần mở. Chưa có service worker để bảo đảm vỏ app mở khi mất mạng hoàn toàn; khi vỏ đã tải, số liệu đã lưu xem được không gọi Google. Nền bản đồ và đường đi vẫn cần mạng.
 
-AI hội thoại cần một máy chủ xác thực và khóa AI lưu bằng biến môi trường, hạn mức và chính sách chia sẻ dữ liệu. Không thêm ô nhập khóa AI lên Pages.
+## Kết nối Google và quyền nguồn
+Scopes: spreadsheets.readonly, openid, email. Google xác minh email qua UserInfo; không mở bằng email tự gõ. Google Sheet là nguồn duy nhất, không gọi API Warehouse suy đoán.
+- Bật Sheets API, OAuth consent/test users trong dự án Cloud BHVer1 đang có.
+- Authorized JavaScript origin: https://adamavaadam.github.io (không thêm /phantichso).
+- Sheet cần Restricted, chỉ chia sẻ cho tài khoản người dùng/đồng bộ. Lần kiểm tra trước Sheet có anyone/reader; đăng nhập Hub không che được nguồn đang công khai. App không tự sửa quyền chia sẻ.
+- Biết link không thay quyền Google. Scope readonly được Google thực thi, có thể đọc các Sheet tài khoản có quyền; mã ứng dụng chỉ gọi Sheet ID cố định.
 
-## Kiểm tra và triển khai
+## Bản đồ và dịch vụ ngoài
+Nguồn bộ công cụ: AdamAvaAdam/BHVer1 commit e8c33a10be4b7a2aecbbe134615430b8c0285b83. Gói HTML gốc được nén/chia phần và kiểm tra SHA-256 khi mở; không chứa dữ liệu khách/đơn tải thật. index.html chương trình gốc không bị thay công thức; chỉ thêm entry.js để root mở Hub.
+
+Tile OpenStreetMap dùng Referer origin hợp lệ và cache mặc định, không proxy/né chặn. Nền vệ tinh dùng ArcGIS theo BHVer1. Khoảng cách/lộ trình dùng các dịch vụ BHVer1 đã có (OSRM/Valhalla/Nominatim); thao tác tính đường gửi tọa độ được chọn đến dịch vụ đó, không gửi token Google. Dịch vụ ngoài có thể giới hạn hoặc thiếu dữ liệu cấm tải trọng/theo giờ; không thay hướng dẫn giao thông thực tế.
+
+## Kiểm thử
 Node 18+ (CI Node 22), không cần npm install:
 ```
 node test-tours.cjs
 node test-hub.cjs
+node test-login.cjs
+node test-login-flow.cjs
+node test-modules.cjs
 node test-auth.cjs
 ```
-GitHub Pages: Settings → Pages → Deploy from branch → main / root. Hub tại `/phantichso/hub.html`, ứng dụng cũ tại `/phantichso/`. Workflow verify chỉ chạy kiểm thử, không thay cấu hình Pages hoặc deploy máy chủ. Không upload snapshot dữ liệu thật vào repo hoặc artifact công khai.
+Đã QA trình duyệt với dữ liệu thử riêng trên localhost: đăng nhập/tải, quà tặng hiển thị đúng gross/Sharp net trong Hub, bản đồ BHVer1, tạo nhãn và mở lại giữ nhãn, mở lại Dashboard không có request Sheet. Không commit fixture QA hoặc dữ liệu kinh doanh thật.
 
-Đã kiểm tra tổng đầu đơn trực tiếp qua connector khớp WH_DongBo và mã khách không trùng. Đọc DATA_MODEL.md để biết phạm vi và cảnh báo. QA trình duyệt không thay thế việc cấp quyền Google thật của người sử dụng.
-
-Tài liệu API chính thức:
-- https://developers.google.com/identity/oauth2/web/guides/use-token-model
-- https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets.values/batchGet
-
-## Quyền nguồn tại thời điểm bàn giao
-Connector xác minh 03/11/2026: Sheet có permission `anyone / reader / allowFileDiscovery=false` (ai có liên kết đều đọc được). Đây là cấu hình công khai ở nguồn; OAuth của Hub không thể che truy cập trực tiếp. Chủ Sheet cần chuyển General access thành Restricted, giữ chủ sở hữu và các tài khoản đồng bộ/nhân viên được phép. Chưa thay quyền chia sẻ vì yêu cầu dùng Sheet làm nguồn chỉ đọc; cần kiểm tra công cụ đồng bộ có dùng tài khoản Google trước khi thu hồi truy cập ẩn danh.
-
-Kiểm thử mô hình với toàn bộ nguồn thật: 9.528 đơn, 15.566 chi tiết, 10.776 khách, 2.530 sản phẩm; tổng đầu đơn khớp WH_DongBo. 2.542 khách có giao dịch, 1.783 ghép tọa độ, 9 mã tọa độ trùng bị loại, 19 đơn chưa khớp danh mục khách. Không lưu dữ liệu thật vào repo. Luồng OAuth đầy đủ còn cần người dùng đăng nhập/cấp quyền trên website.
-
-## Sửa nền bản đồ 403
-Thay Referrer-Policy no-referrer bằng strict-origin-when-cross-origin ở trang Hub, máy chủ và ảnh tile Leaflet. Chỉ gửi origin công khai của ứng dụng đến OpenStreetMap, không gửi mã khách/tọa độ điểm trong Referer. Không thêm proxy hoặc đổi máy chủ để né chặn. Bổ sung cảnh báo tileerror; giữ caching mặc định của trình duyệt. Chính sách: https://operations.osmfoundation.org/policies/tiles/
-
-## Đăng nhập Google theo BHVer1
-Trang đầu chỉ hiển thị nút Đăng nhập. Dùng lại Web OAuth Client ID của BHVer1, không tạo dự án Google Cloud mới. Google xác minh email qua UserInfo (sub + email + email_verified=true). Chỉ mở Hub sau khi tải/đối soát Sheet thành công; lỗi hoặc hủy đăng nhập giữ màn hình khóa. Đăng xuất/hết hạn quay về màn hình đăng nhập và xóa bộ nhớ. Không nhập email thủ công, không dùng địa chỉ email tự khai để mở khóa.
-
-Không có danh sách email cố định do người dùng chưa chỉ định; cùng mô hình BHVer1, quyền đọc do Google Sheet kiểm soát. Với Sheet công khai, mọi tài khoản Google đã xác minh có thể đọc; cần Restricted và chia sẻ đúng tài khoản để giới hạn người dùng thực sự. Vỏ đăng nhập trên Pages không thay thế phân quyền Sheet hoặc xác thực máy chủ. Các phạm vi openid/email mới có thể cần đồng ý lại trong dự án Cloud hiện có. Không tự động chấp nhận quyền thay người dùng.
+GitHub Pages: main/root. secure-server.cjs là phương án Node + HTTPS tùy chọn, hỗ trợ module/khung cùng origin; đọc SECURITY_SETUP.md. Chưa triển khai máy chủ ngoài hoặc AI backend.

@@ -45,7 +45,7 @@ function validSession(req) {
   try {const p=JSON.parse(Buffer.from(data,"base64url").toString("utf8"));return p.user===ADMIN_USER && Number.isFinite(p.exp) && p.exp>Date.now();}catch{return false;}
 }
 function send(res,status,body,type="text/html; charset=utf-8",headers={}){
-  res.writeHead(status,{"Content-Type":type,"Cache-Control":"no-store","X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"strict-origin-when-cross-origin","Content-Security-Policy":"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/client; connect-src 'self' https://sheets.googleapis.com https://openidconnect.googleapis.com https://accounts.google.com/gsi/; frame-src https://accounts.google.com/gsi/; img-src 'self' data: https://tile.openstreetmap.org; form-action 'self'; frame-ancestors 'none'",...headers});
+  res.writeHead(status,{"Content-Type":type,"Cache-Control":"no-store","X-Content-Type-Options":"nosniff","X-Frame-Options":"SAMEORIGIN","Referrer-Policy":"strict-origin-when-cross-origin","Content-Security-Policy":"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/client; connect-src 'self' https://sheets.googleapis.com https://openidconnect.googleapis.com https://accounts.google.com/gsi/ https://router.project-osrm.org https://valhalla1.openstreetmap.de https://nominatim.openstreetmap.org; frame-src 'self' https://accounts.google.com/gsi/; img-src 'self' data: blob: https://tile.openstreetmap.org https://server.arcgisonline.com; form-action 'self'; frame-ancestors 'self'",...headers});
   res.end(body);
 }
 function redirect(res,target,headers={}){send(res,303,"", "text/plain; charset=utf-8",{"Location":target,...headers});}
@@ -95,6 +95,10 @@ const server=http.createServer(async(req,res)=>{
    return redirect(res,"/login",{"Set-Cookie":expireCookie});
  }
  const assets={"/hub-auth.js":"text/javascript; charset=utf-8","/hub.js":"text/javascript; charset=utf-8","/hub-core.js":"text/javascript; charset=utf-8","/hub.css":"text/css; charset=utf-8","/assets/leaflet.js":"text/javascript; charset=utf-8","/assets/leaflet.css":"text/css; charset=utf-8"};
+ for(const name of ['entry.js','hub-device.js','hub-modules.js','bh-map-loader.js','tours-loader.js'])assets['/'+name]='text/javascript; charset=utf-8';
+ for(const name of ['bh-map.html','tours.html'])assets['/'+name]='text/html; charset=utf-8';
+ assets['/assets/bhver1/manifest.json']='application/json';
+ if(/^\/assets\/bhver1\/part-\d{2}\.txt$/.test(pathname))assets[pathname]='text/plain; charset=utf-8';
  if(req.method==="GET" && assets[pathname]){
    if(!validSession(req))return send(res,401,"Authentication required","text/plain");
    try{return send(res,200,fs.readFileSync(path.join(__dirname,pathname.slice(1))),assets[pathname]);}catch{return send(res,404,"Not found","text/plain");}

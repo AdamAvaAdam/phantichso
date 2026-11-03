@@ -1,0 +1,12 @@
+/* Device cache: encrypted business snapshot, non-exportable key; never stores OAuth tokens. */
+(function(root){'use strict';let db,saveQueue=Promise.resolve();const DB='vt-hub-device-v1';
+function open(){if(db)return Promise.resolve(db);return new Promise((resolve,reject)=>{const r=indexedDB.open(DB,1);r.onupgradeneeded=()=>r.result.createObjectStore('device');r.onsuccess=()=>{db=r.result;resolve(db);};r.onerror=()=>reject(r.error);});}
+async function get(key){const d=await open();return new Promise((resolve,reject)=>{const tx=d.transaction('device'),r=tx.objectStore('device').get(key);r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);});}
+async function put(key,value){const d=await open();return new Promise((resolve,reject)=>{const tx=d.transaction('device','readwrite');tx.objectStore('device').put(value,key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+async function remove(key){const d=await open();return new Promise((resolve,reject)=>{const tx=d.transaction('device','readwrite');tx.objectStore('device').delete(key);tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error);});}
+async function save(snapshot){const job=async()=>{const subject=snapshot.identity.subject;let key=await get('key:'+subject);if(!key){key=await crypto.subtle.generateKey({name:'AES-GCM',length:256},false,['encrypt','decrypt']);await put('key:'+subject,key);}const iv=crypto.getRandomValues(new Uint8Array(12)),bytes=new TextEncoder().encode(JSON.stringify(snapshot)),cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},key,bytes);await put('snapshot:'+subject,{iv,cipher});await put('last',subject);};saveQueue=saveQueue.then(job,job);return saveQueue;}
+async function load(){const subject=await get('last');return subject?loadAccount(subject):null;}
+async function loadAccount(subject){const [key,record]=await Promise.all([get('key:'+subject),get('snapshot:'+subject)]);if(!key||!record)return null;const bytes=await crypto.subtle.decrypt({name:'AES-GCM',iv:record.iv},key,record.cipher);const snapshot=JSON.parse(new TextDecoder().decode(bytes));if(snapshot.version!==1||snapshot.identity?.subject!==subject)throw Error('Bản lưu trên thiết bị không hợp lệ.');return snapshot;}
+async function signout(){await saveQueue.catch(()=>{});await remove('last');}
+async function forget(){await saveQueue.catch(()=>{});const subject=await get('last');if(subject){await remove('snapshot:'+subject);await remove('key:'+subject);}await remove('last');}
+root.VTHubDevice={save,load,loadAccount,signout,forget};})(globalThis);
