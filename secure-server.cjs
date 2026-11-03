@@ -45,7 +45,7 @@ function validSession(req) {
   try {const p=JSON.parse(Buffer.from(data,"base64url").toString("utf8"));return p.user===ADMIN_USER && Number.isFinite(p.exp) && p.exp>Date.now();}catch{return false;}
 }
 function send(res,status,body,type="text/html; charset=utf-8",headers={}){
-  res.writeHead(status,{"Content-Type":type,"Cache-Control":"no-store","X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"strict-origin-when-cross-origin","Content-Security-Policy":"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/client; connect-src 'self' https://sheets.googleapis.com https://accounts.google.com/gsi/; frame-src https://accounts.google.com/gsi/; img-src 'self' data: https://tile.openstreetmap.org; form-action 'self'; frame-ancestors 'none'",...headers});
+  res.writeHead(status,{"Content-Type":type,"Cache-Control":"no-store","X-Content-Type-Options":"nosniff","X-Frame-Options":"DENY","Referrer-Policy":"strict-origin-when-cross-origin","Content-Security-Policy":"default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://accounts.google.com/gsi/client; connect-src 'self' https://sheets.googleapis.com https://openidconnect.googleapis.com https://accounts.google.com/gsi/; frame-src https://accounts.google.com/gsi/; img-src 'self' data: https://tile.openstreetmap.org; form-action 'self'; frame-ancestors 'none'",...headers});
   res.end(body);
 }
 function redirect(res,target,headers={}){send(res,303,"", "text/plain; charset=utf-8",{"Location":target,...headers});}
@@ -94,7 +94,7 @@ const server=http.createServer(async(req,res)=>{
    if(!isSameOrigin(req))return send(res,403,"Forbidden","text/plain");
    return redirect(res,"/login",{"Set-Cookie":expireCookie});
  }
- const assets={"/hub.js":"text/javascript; charset=utf-8","/hub-core.js":"text/javascript; charset=utf-8","/hub.css":"text/css; charset=utf-8","/assets/leaflet.js":"text/javascript; charset=utf-8","/assets/leaflet.css":"text/css; charset=utf-8"};
+ const assets={"/hub-auth.js":"text/javascript; charset=utf-8","/hub.js":"text/javascript; charset=utf-8","/hub-core.js":"text/javascript; charset=utf-8","/hub.css":"text/css; charset=utf-8","/assets/leaflet.js":"text/javascript; charset=utf-8","/assets/leaflet.css":"text/css; charset=utf-8"};
  if(req.method==="GET" && assets[pathname]){
    if(!validSession(req))return send(res,401,"Authentication required","text/plain");
    try{return send(res,200,fs.readFileSync(path.join(__dirname,pathname.slice(1))),assets[pathname]);}catch{return send(res,404,"Not found","text/plain");}

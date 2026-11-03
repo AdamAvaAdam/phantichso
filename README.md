@@ -11,7 +11,7 @@ Mở `hub.html` trên GitHub Pages. `index.html` là ứng dụng quà tặng/du
 - Phân tích tự động có cơ sở tính toán, kiểm tra đơn chưa khớp khách và tiền không dương. AI hội thoại chưa được kết nối, UI ghi rõ.
 
 ## Kết nối riêng tư trên Pages
-Google Identity Services token model + Google Sheets REST API v4 `values:batchGet`, scope `spreadsheets.readonly`. Không dùng API Warehouse suy đoán, proxy công khai, API key, client secret hoặc service account trong trình duyệt. Token và dữ liệu chỉ nằm trong RAM, xóa khi đăng xuất/rời trang/hết phiên. Không có service worker, localStorage hoặc offline snapshot mới.
+Google Identity Services token model + Google Sheets REST API v4 `values:batchGet`, scopes `spreadsheets.readonly openid email`. Không dùng API Warehouse suy đoán, proxy công khai, API key, client secret hoặc service account trong trình duyệt. Token và dữ liệu chỉ nằm trong RAM, xóa khi đăng xuất/rời trang/hết phiên. Không có service worker, localStorage hoặc offline snapshot mới.
 
 OAuth Client ID công khai được tái sử dụng từ BHVer1. Trước khi dùng, chủ dự án Google Cloud cần xác nhận:
 1. Sheets API đã bật; consent screen/test users được cấu hình.
@@ -45,3 +45,8 @@ Kiểm thử mô hình với toàn bộ nguồn thật: 9.528 đơn, 15.566 chi 
 
 ## Sửa nền bản đồ 403
 Thay Referrer-Policy no-referrer bằng strict-origin-when-cross-origin ở trang Hub, máy chủ và ảnh tile Leaflet. Chỉ gửi origin công khai của ứng dụng đến OpenStreetMap, không gửi mã khách/tọa độ điểm trong Referer. Không thêm proxy hoặc đổi máy chủ để né chặn. Bổ sung cảnh báo tileerror; giữ caching mặc định của trình duyệt. Chính sách: https://operations.osmfoundation.org/policies/tiles/
+
+## Đăng nhập Google theo BHVer1
+Trang đầu chỉ hiển thị nút Đăng nhập. Dùng lại Web OAuth Client ID của BHVer1, không tạo dự án Google Cloud mới. Google xác minh email qua UserInfo (sub + email + email_verified=true). Chỉ mở Hub sau khi tải/đối soát Sheet thành công; lỗi hoặc hủy đăng nhập giữ màn hình khóa. Đăng xuất/hết hạn quay về màn hình đăng nhập và xóa bộ nhớ. Không nhập email thủ công, không dùng địa chỉ email tự khai để mở khóa.
+
+Không có danh sách email cố định do người dùng chưa chỉ định; cùng mô hình BHVer1, quyền đọc do Google Sheet kiểm soát. Với Sheet công khai, mọi tài khoản Google đã xác minh có thể đọc; cần Restricted và chia sẻ đúng tài khoản để giới hạn người dùng thực sự. Vỏ đăng nhập trên Pages không thay thế phân quyền Sheet hoặc xác thực máy chủ. Các phạm vi openid/email mới có thể cần đồng ý lại trong dự án Cloud hiện có. Không tự động chấp nhận quyền thay người dùng.
