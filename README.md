@@ -37,3 +37,8 @@ GitHub Pages: Settings → Pages → Deploy from branch → main / root. Hub t�
 Tài liệu API chính thức:
 - https://developers.google.com/identity/oauth2/web/guides/use-token-model
 - https://developers.google.com/workspace/sheets/api/reference/rest/v4/spreadsheets.values/batchGet
+
+## Quyền nguồn tại thời điểm bàn giao
+Connector xác minh 03/11/2026: Sheet có permission `anyone / reader / allowFileDiscovery=false` (ai có liên kết đều đọc được). Đây là cấu hình công khai ở nguồn; OAuth của Hub không thể che truy cập trực tiếp. Chủ Sheet cần chuyển General access thành Restricted, giữ chủ sở hữu và các tài khoản đồng bộ/nhân viên được phép. Chưa thay quyền chia sẻ vì yêu cầu dùng Sheet làm nguồn chỉ đọc; cần kiểm tra công cụ đồng bộ có dùng tài khoản Google trước khi thu hồi truy cập ẩn danh.
+
+Kiểm thử mô hình với toàn bộ nguồn thật: 9.528 đơn, 15.566 chi tiết, 10.776 khách, 2.530 sản phẩm; tổng đầu đơn khớp WH_DongBo. 2.542 khách có giao dịch, 1.783 ghép tọa độ, 9 mã tọa độ trùng bị loại, 19 đơn chưa khớp danh mục khách. Không lưu dữ liệu thật vào repo. Luồng OAuth đầy đủ còn cần người dùng đăng nhập/cấp quyền trên website.
