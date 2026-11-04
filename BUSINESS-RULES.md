@@ -1,5 +1,7 @@
 # Quy tắc doanh số
 
+Chương trình 03–13/11/2026: xem `NOVEMBER-PROGRAMS.md`. Bảng cao áp dụng `TierCode` BB/BB2 hoặc Hà Nội cũ (01) do P.Anh phụ trách; mốc ngày cộng đơn cùng khách trong ngày; Daikin riêng chỉ tính điều hòa. Điều kiện nhận thưởng chờ xác minh, không tự duyệt từ doanh số.
+
 Xác nhận trực tiếp bởi người dùng ngày 03/11/2026:
 
 - `DocStatus` / `temp.DocStatus` bằng `9` là **đơn đã hủy**. Luôn loại khỏi doanh số, số đơn có hiệu lực, biểu đồ, bản đồ và tiến độ/thưởng của mọi chương trình, kể cả khi không chọn bộ lọc trạng thái.
@@ -10,6 +12,8 @@ Xác nhận trực tiếp bởi người dùng ngày 03/11/2026:
 Kiểm tra quy tắc: `node --test cancellation.test.cjs`.
 
 ## Chuẩn hóa ngày 04/11/2026
+
+- **Hạng mục còn lại: trừ hàng bán trả lại.** Người dùng đồng ý bổ sung sau (04/11/2026), không hủy yêu cầu. Giữ lưu ý thiếu dữ liệu trả hàng trên giao diện; chỉ hoàn thành khi có nguồn, quy tắc ghi nhận và đối soát chống trừ hai lần. Tiếp tục các chức năng hiện có trong thời gian chờ.
 
 - Doanh số đầu đơn dùng `TotalAmount`, đã gồm VAT và chiết khấu theo xác nhận người dùng. Không cộng VAT thêm; không thay tiền đầu đơn bằng số lượng × đơn giá chi tiết.
 - Phạm vi ngày dùng `DocDate`, bao gồm cả ngày đầu và ngày cuối; từ chối ngày lịch không tồn tại. Cảnh báo riêng khi chọn vượt phạm vi lịch sử nguồn.
