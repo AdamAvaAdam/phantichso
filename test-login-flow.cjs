@@ -1,7 +1,7 @@
 const assert=require('node:assert/strict'),vm=require('node:vm'),fs=require('node:fs'),C=require('./hub-core.js'),Auth=require('./hub-auth.js');
 const turn=()=>new Promise(resolve=>setImmediate(resolve));
 async function scenario({verified=true,sheetAllowed=true}={}){
- const nodes=new Map(),node=id=>{if(!nodes.has(id))nodes.set(id,{hidden:id==='workspace',inert:id==='workspace',disabled:false,value:'',textContent:'',innerHTML:'',classList:{add(){},remove(){},toggle(){}},getAttribute(){return null;},removeAttribute(){},addEventListener(){}});return nodes.get(id);};
+ const nodes=new Map(),node=id=>{if(!nodes.has(id))nodes.set(id,{hidden:id==='workspace',inert:id==='workspace',disabled:false,value:'',textContent:'',innerHTML:'',classList:{add(){},remove(){},toggle(){}},getAttribute(){return null;},removeAttribute(){},remove(){},addEventListener(){}});return nodes.get(id);};
  const data={};for(const [tab,headers]of Object.entries(C.schema))data[tab]=[headers];
  const row=(tab,obj)=>data[tab].push(C.schema[tab].map(h=>obj[h]??''));
  row('WH_KhachHang',{CustomerCode:'TEST',CustomerName:'QA customer',ProvinceId:'01',ProvinceName:'QA province'});row('WH_SanPham',{ProductSku:'SKU',BrandCode:'QA'});row('WH_DonBan',{AppOrderId:'ORDER',OrderRefNo:'REF',DocDate:'2026-11-03',CustomerCode:'TEST',CustomerName:'QA customer',TotalAmount:'100',DocStatus:'4'});row('WH_ChiTietDon',{id:'LINE',AppOrderId:'ORDER',ProductCode:'SKU'});row('Định vị',{'Mã điểm':'TEST','Kinh độ':'105,8','Vĩ độ':'21,0'});

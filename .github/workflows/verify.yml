@@ -19,3 +19,5 @@ jobs:
       - run: node test-login-flow.cjs
       - run: node test-modules.cjs
       - run: node test-auth.cjs
+
+      - run: node --test cancellation.test.cjs promotions.test.cjs standardization.test.cjs hub-interface.test.cjs
