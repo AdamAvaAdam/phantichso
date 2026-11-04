@@ -20,4 +20,4 @@ jobs:
       - run: node test-modules.cjs
       - run: node test-auth.cjs
 
-      - run: node --test cancellation.test.cjs promotions.test.cjs standardization.test.cjs hub-interface.test.cjs november-programs.test.cjs november-interface.test.cjs quality.test.cjs review-exclusions.test.cjs
+      - run: node --test cancellation.test.cjs promotions.test.cjs standardization.test.cjs hub-interface.test.cjs november-programs.test.cjs november-interface.test.cjs quality.test.cjs review-exclusions.test.cjs private-source.test.cjs

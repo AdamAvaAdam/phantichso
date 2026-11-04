@@ -1,6 +1,6 @@
 # Mô hình dữ liệu đã xác minh qua connector
 
-Sheet nguồn: https://docs.google.com/spreadsheets/d/1-9_nJCydsL3bmdcjKUr24FLkAkJsf6lKb8T9SXNhv4k/edit
+Source address is configured only inside the local application; it is not sent to browser assets.
 
 Xác minh 03/11/2026. Gid 1411013804 là WH_ChiTietDon, không phải toàn bộ mô hình. `hub-core.js` chứa tiêu đề cột chính xác và từ chối dữ liệu khi schema đổi. Không commit bản ghi cá nhân/đơn hàng thật.
 

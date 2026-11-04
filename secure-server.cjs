@@ -95,7 +95,7 @@ const server=http.createServer(async(req,res)=>{
    return redirect(res,"/login",{"Set-Cookie":expireCookie});
  }
  const assets={"/hub-auth.js":"text/javascript; charset=utf-8","/hub.js":"text/javascript; charset=utf-8","/hub-core.js":"text/javascript; charset=utf-8","/hub.css":"text/css; charset=utf-8","/assets/leaflet.js":"text/javascript; charset=utf-8","/assets/leaflet.css":"text/css; charset=utf-8"};
- for(const name of ['entry.js','hub-device.js','hub-modules.js','bh-map-loader.js','tours-loader.js','hub-jarvis.js','hub-promotions.js','order-inspector.js','tours-app.js','hub-quality.js','quality-ui.js'])assets['/'+name]='text/javascript; charset=utf-8';
+ for(const name of ['entry.js','hub-device.js','hub-modules.js','bh-map-loader.js','tours-loader.js','hub-jarvis.js','hub-promotions.js','order-inspector.js','tours-app.js','hub-quality.js','quality-ui.js','hub-data.js'])assets['/'+name]='text/javascript; charset=utf-8';
  for(const name of ['bh-map.html','tours.html'])assets['/'+name]='text/html; charset=utf-8';
  for(const name of ['hub-jarvis.css','hub-brand.css','tours.css'])assets['/'+name]='text/css; charset=utf-8';
  assets['/assets/bhver1/manifest.json']='application/json';

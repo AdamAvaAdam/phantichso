@@ -414,15 +414,15 @@ details.dealer-card{padding:0;margin:0;border-radius:10px;overflow:hidden;backgr
     <button id="backup">Sao lưu</button>
     <button id="csv">Xuất báo cáo</button>
     <button id="open-import">Nhập Excel</button>
-    <button class="primary" id="open-google">Google Sheets</button>
+    <button class="primary" id="open-google">Nguồn dữ liệu</button>
   </div>  <div class="toolbar">
     <div>
-      <b>Nguồn đơn hàng: Google Sheets</b>
+      <b>Nguồn đơn hàng: Nguồn dữ liệu</b>
       <p id="source-status" class="muted">
         Chưa cập nhật nguồn trực tuyến trên trình duyệt này.
       </p>
     </div>
-    <button id="sync-google">Cập nhật từ Google Sheets</button>
+    <button id="sync-google">Cập nhật từ Nguồn dữ liệu</button>
   </div>
 
 </div></details>
@@ -671,7 +671,7 @@ details.dealer-card{padding:0;margin:0;border-radius:10px;overflow:hidden;backgr
       id="google-source-link"
       target="_blank"
       rel="noopener noreferrer"
-    >Mở bảng nguồn Google Sheets ↗</a>
+    >Mở bảng nguồn Nguồn dữ liệu ↗</a>
   </p>
   <p class="muted">
     Đọc Số, Ngày, Đối tượng, Nội dung, Tổng tiền và Hãng.
@@ -693,7 +693,7 @@ details.dealer-card{padding:0;margin:0;border-radius:10px;overflow:hidden;backgr
   </label>
   <div id="google-busy" hidden>
     <div class="loader"><span></span></div>
-    <p>Đang đọc Google Sheets…</p>
+    <p>Đang đọc Nguồn dữ liệu…</p>
   </div>
   <div id="google-preview"></div>
   <p class="note">
@@ -732,8 +732,8 @@ const TOUR_CUSTOM = [
   {key:"tuyen quang", mangDen:null, north:714625645.5}
 ];
 
-const GOOGLE_ID = "1-9_nJCydsL3bmdcjKUr24FLkAkJsf6lKb8T9SXNhv4k";
-const GOOGLE_GID = "912353833";
+const GOOGLE_ID = "";
+const GOOGLE_GID = "";
 const GOOGLE_SOURCE = GOOGLE_ID + ":" + GOOGLE_GID;
 const GOOGLE_URL =
   "https://docs.google.com/spreadsheets/d/" +
@@ -1779,7 +1779,7 @@ function googleDate(value) {
     match[3].padStart(2, "0");
 
   if (!validDate(date)) {
-    throw Error("Ngày Google Sheets không hợp lệ");
+    throw Error("Ngày Nguồn dữ liệu không hợp lệ");
   }
 
   return date;
@@ -1803,7 +1803,7 @@ async function parseGoogle(text) {
     response.status !== "ok" ||
     !Array.isArray(response.table?.rows)
   ) {
-    throw Error("Google Sheets trả lỗi; dữ liệu cũ được giữ.");
+    throw Error("Nguồn dữ liệu trả lỗi; dữ liệu cũ được giữ.");
   }
 
   const expected = [
@@ -1858,7 +1858,7 @@ async function parseGoogle(text) {
       classification: "auto",
       vat: false,
       cancelled: false,
-      source: "Google Sheets: " + order,
+      source: "Nguồn dữ liệu: " + order,
       sourceId: GOOGLE_SOURCE
     };
 
@@ -1885,7 +1885,7 @@ async function parseGoogle(text) {
   return Promise.all(promises);
 }
 
-async function readGoogle() {
+async function readGoogle() { throw Error("Mở chương trình từ VT Hub để cập nhật dữ liệu.");
   const query =
     "select A,B,C,F,P,Q where A is not null limit 20001";
 
@@ -1910,7 +1910,7 @@ async function readGoogle() {
     });
   } catch {
     throw Error(
-      "Không kết nối được Google Sheets. " +
+      "Không kết nối được Nguồn dữ liệu. " +
       "Kiểm tra mạng hoặc dùng nhập Excel. " +
       "Dữ liệu đã lưu vẫn được giữ."
     );
@@ -1918,7 +1918,7 @@ async function readGoogle() {
 
   if (!response.ok) {
     throw Error(
-      "Google Sheets trả mã " +
+      "Nguồn dữ liệu trả mã " +
       response.status +
       ". Dữ liệu cũ được giữ."
     );
@@ -2038,7 +2038,7 @@ $("#google-commit").onclick = () => execute(() => {
   $("#google-dialog").close();
 
   notify(
-    "Đã kết nối Google Sheets. Bấm cập nhật để lấy đơn mới; " +
+    "Đã kết nối Nguồn dữ liệu. Bấm cập nhật để lấy đơn mới; " +
     "không cộng lại dòng đã đồng bộ."
   );
 });
@@ -2072,13 +2072,13 @@ async function syncGoogle() {
     notify(
       "Đã cập nhật " +
       lines.length +
-      " dòng từ Google Sheets. " +
+      " dòng từ Nguồn dữ liệu. " +
       "Doanh số thủ công và các xác nhận được giữ."
     );
   } finally {
     syncBusy = false;
     button.disabled = false;
-    button.textContent = "Cập nhật từ Google Sheets";
+    button.textContent = "Cập nhật từ Nguồn dữ liệu";
   }
 }
 
