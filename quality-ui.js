@@ -1,0 +1,18 @@
+'use strict';
+// The Hub provides the current authenticated snapshot; this view never reads Warehouse directly.
+window.VTQualityView=function({model,filters,openOrder}){
+ const Q=window.VTHubQuality,$=id=>document.getElementById(id),esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])),money=n=>n.toLocaleString('vi-VN')+' ₫';
+ let report=null,page=0;const size=30;
+ function draw(){if(!report)return;const kind=$('quality-kind').value,rows=Q.select(report,kind),pages=Math.max(1,Math.ceil(rows.length/size));page=Math.min(page,pages-1);
+  $('quality-page').textContent='Trang '+(page+1)+' / '+pages+' · '+rows.length+' đơn';$('quality-prev').disabled=page===0;$('quality-next').disabled=page===pages-1;$('quality-export').disabled=!rows.length;
+  $('quality-list').innerHTML=rows.length?'<div class="table-wrap"><table><thead><tr><th>Ngày / đơn</th><th>Khách hàng</th><th>Cần kiểm tra</th><th>Tiền đầu đơn vẫn tính</th><th>Gợi ý xử lý</th></tr></thead><tbody>'+rows.slice(page*size,(page+1)*size).map(r=>{const o=r.order;return '<tr><td>'+esc(o.DocDate)+'<br><button data-quality-order="'+esc(o.AppOrderId)+'">'+esc(o.OrderRefNo||o.AppOrderId)+' ↗</button></td><td>'+esc(o.customer?.CustomerName||o.CustomerName||'Chưa có tên nguồn')+'<small>'+esc(o.CustomerCode||'Mã khách trống')+'</small></td><td>'+r.issues.map(i=>'<div class="quality-issue"><b>'+esc(i.label)+'</b><small>'+esc(i.description)+'</small></div>').join('')+'</td><td>'+money(o.amount)+'</td><td>'+r.actions.map(t=>'<p>'+esc(t)+'</p>').join('')+'</td></tr>';}).join('')+'</tbody></table></div>':'<p class="muted">Không có đơn cần kiểm tra trong nhóm và bộ lọc này.</p>';
+ }
+ $('quality-kind').addEventListener('change',()=>{page=0;draw();});$('quality-prev').onclick=()=>{page--;draw();};$('quality-next').onclick=()=>{page++;draw();};
+ $('quality-list').addEventListener('click',e=>{const b=e.target.closest('[data-quality-order]');if(b)openOrder(b.dataset.qualityOrder);});
+ $('quality-export').onclick=()=>{if(!report)return;const url=URL.createObjectURL(new Blob([Q.csv(report,$('quality-kind').value)],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=url;a.download='VT-du-lieu-can-kiem-tra.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
+ return {
+  refresh(){const m=model();if(!m)return;report=Q.analyze(m,filters());page=0;$('quality-total').textContent=String(report.total);$('quality-customer').textContent=String(report.counts.customer);$('quality-lines').textContent=String(report.counts.lines);$('quality-details').textContent=String(report.counts.details);$('quality-value').textContent=money(report.affectedTotal);$('quality-note').textContent='Nguồn đã tải '+m.revision.DonTuNgay+' → '+m.revision.DonDenNgay+'. Theo bộ lọc phía trên, chỉ đơn chưa hủy. Một đơn có thể có nhiều vấn đề; tổng đơn không cộng trùng. Cảnh báo không tự kết luận tiền đầu đơn sai.';draw();return report;},
+  show(kind=''){if(!report)this.refresh();$('quality-kind').value=kind;page=0;draw();},
+  reset(){report=null;page=0;for(const id of ['quality-total','quality-customer','quality-lines','quality-details','quality-value'])$(id).textContent='—';$('quality-list').textContent='Tải dữ liệu để kiểm tra.';$('quality-note').textContent='Chưa có dữ liệu.';$('quality-page').textContent='';$('quality-export').disabled=true;$('quality-prev').disabled=true;$('quality-next').disabled=true;}
+ };
+};

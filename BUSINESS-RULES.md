@@ -1,5 +1,13 @@
 # Quy tắc doanh số
 
+## Danh sách kiểm tra chất lượng dữ liệu
+
+- Mục Kiểm tra dữ liệu dùng cùng bộ lọc với tổng quan và chỉ xét đơn chưa hủy. Một đơn có thể có nhiều vấn đề nhưng chỉ cộng một lần vào số đơn/tiền cần kiểm tra.
+- Chưa khớp khách, lệch số dòng hoặc thiếu thông tin sản phẩm không tự làm mất tiền đầu đơn. Giữ nguyên số tiền nguồn; không coi tổng tiền của các đơn cảnh báo là số tiền đã sai hoặc bị loại.
+- Không tự tạo khách, ghép theo tên, xóa chi tiết hoặc sửa TotalLine để hết cảnh báo. Cần xác minh mã khách và cấu trúc chứng từ tại nguồn.
+- Nếu dữ liệu đã đồng bộ khớp Warehouse nhưng đầu đơn và chi tiết nguồn vẫn lệch, đồng bộ lại không tự khắc phục được. Các chương trình có điều kiện tiếp tục chờ phân loại theo quy tắc hiện hành.
+- CSV đối soát chỉ xuất dữ liệu từ bản đang tải và nhóm đang chọn; bảo vệ chuỗi có thể trở thành công thức. Đăng xuất xóa danh sách và các tổng kiểm tra khỏi giao diện.
+
 Chương trình 03–13/11/2026: xem `NOVEMBER-PROGRAMS.md`. Bảng cao áp dụng `TierCode` BB/BB2 hoặc Hà Nội cũ (01) do P.Anh phụ trách; mốc ngày cộng đơn cùng khách trong ngày; Daikin riêng chỉ tính điều hòa. Điều kiện nhận thưởng chờ xác minh, không tự duyệt từ doanh số.
 
 Xác nhận trực tiếp bởi người dùng ngày 03/11/2026:
