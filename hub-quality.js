@@ -1,13 +1,14 @@
 (function(root){
 'use strict';
 const C=typeof module!=='undefined'?require('./hub-core.js'):root.VTHub;
-const labels={customer:'Chưa khớp khách',lines:'Lệch số dòng',details:'Thiếu chi tiết',product:'Chưa khớp sản phẩm',values:'Thiếu số lượng / đơn giá'};
+const labels={review:'Theo dõi đã thay đổi',customer:'Chưa khớp khách',lines:'Lệch số dòng',details:'Thiếu chi tiết',product:'Chưa khớp sản phẩm',values:'Thiếu số lượng / đơn giá'};
 const present=v=>v!==''&&v!==null&&v!==undefined;
 function analyze(model,filters={}){
  const counts=Object.fromEntries(Object.keys(labels).map(k=>[k,0])),rows=[];
  for(const order of model.orders){
   if(C.isCancelled(order)||!C.matches(model,order,filters))continue;
   const details=order.details||[],issues=[],issue=(type,description,action)=>{issues.push({type,label:labels[type],description,action});counts[type]++;};
+  if((model.reviews||[]).some(r=>r.AppOrderId===order.AppOrderId&&r.state==='pending'))issue('review','Dữ liệu của quy tắc bỏ qua đã thay đổi; đang giữ đủ dòng để kiểm tra lại.','Mở đơn và đối chiếu lại trước khi duyệt bỏ qua.');
   if(!order.customer)issue('customer','Mã '+(order.CustomerCode||'(trống)')+' chưa có trong danh mục khách đã tải.','Kiểm tra mã khách trong danh mục Warehouse/Bravo. Nếu nguồn đã có, đồng bộ lại Khách hàng và cập nhật Hub. Không ghép theo tên.');
   const raw=order.TotalLine,expected=present(raw)&&Number.isInteger(Number(raw))&&Number(raw)>=0?Number(raw):null;
   if(!details.length)issue('details','Chưa có chi tiết đi kèm đầu đơn.','Chọn cả Đơn bán và Chi tiết đơn bán rồi đồng bộ lại kỳ của đơn. Nếu vẫn thiếu, kiểm tra nguồn.');
