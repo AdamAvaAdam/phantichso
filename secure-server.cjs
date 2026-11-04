@@ -97,7 +97,7 @@ const server=http.createServer(async(req,res)=>{
  const assets={"/hub-auth.js":"text/javascript; charset=utf-8","/hub.js":"text/javascript; charset=utf-8","/hub-core.js":"text/javascript; charset=utf-8","/hub.css":"text/css; charset=utf-8","/assets/leaflet.js":"text/javascript; charset=utf-8","/assets/leaflet.css":"text/css; charset=utf-8"};
  for(const name of ['entry.js','hub-device.js','hub-modules.js','bh-map-loader.js','tours-loader.js','hub-jarvis.js','hub-promotions.js','order-inspector.js','tours-app.js'])assets['/'+name]='text/javascript; charset=utf-8';
  for(const name of ['bh-map.html','tours.html'])assets['/'+name]='text/html; charset=utf-8';
- for(const name of ['hub-jarvis.css','tours.css'])assets['/'+name]='text/css; charset=utf-8';
+ for(const name of ['hub-jarvis.css','hub-brand.css','tours.css'])assets['/'+name]='text/css; charset=utf-8';
  assets['/assets/bhver1/manifest.json']='application/json';
  if(/^\/assets\/bhver1\/part-\d{2}\.txt$/.test(pathname))assets[pathname]='text/plain; charset=utf-8';
  if(req.method==="GET" && assets[pathname]){
