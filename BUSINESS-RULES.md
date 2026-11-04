@@ -8,3 +8,17 @@ Xác nhận trực tiếp bởi người dùng ngày 03/11/2026:
 - Chưa gán thêm ý nghĩa cho mã 4 hoặc các mã khác. Đơn âm chưa hủy vẫn giữ theo nguồn.
 
 Kiểm tra quy tắc: `node --test cancellation.test.cjs`.
+
+## Chuẩn hóa ngày 04/11/2026
+
+- Doanh số đầu đơn dùng `TotalAmount`, đã gồm VAT và chiết khấu theo xác nhận người dùng. Không cộng VAT thêm; không thay tiền đầu đơn bằng số lượng × đơn giá chi tiết.
+- Phạm vi ngày dùng `DocDate`, bao gồm cả ngày đầu và ngày cuối; từ chối ngày lịch không tồn tại. Cảnh báo riêng khi chọn vượt phạm vi lịch sử nguồn.
+- Theo cùng một bộ lọc: tổng đầu đơn nguồn − tổng tiền đơn hủy = doanh số được tính. Tiền đơn hủy có thể âm; giữ dấu gốc. CSV và bảng đối soát giữ cả đơn hủy.
+- Giữ nguyên đơn âm chưa hủy. Chưa có chứng từ trả hàng riêng, không tự gán đơn âm/IsAdjustment thành hàng bán trả lại. Không gọi chỉ tiêu đầu đơn là doanh thu thuần hoặc lợi nhuận.
+- Khách hàng phân biệt theo mã; chuẩn hóa mã tỉnh số một chữ số thành hai chữ số khi lọc, không suy đoán tỉnh cũ từ địa chỉ.
+- Bộ lọc hãng lấy toàn bộ đơn có chứa hãng, không phải tiền phân bổ cho hãng. Không cộng các tổng theo hãng hoặc các chương trình giao nhau thành doanh số chung.
+- Đơn thiếu khách/chi tiết vẫn giữ số tiền đầu đơn trong tổng và được cảnh báo. Phân loại chương trình tiếp tục chờ đối soát nếu thiếu điều kiện; không tự phân bổ chiết khấu hoặc VAT cho dòng sản phẩm.
+- Mã thiếu/trùng, tổng snapshot không khớp hoặc tiền vượt giới hạn số nguyên an toàn chặn sử dụng bản tải mới. Không chỉnh sửa dữ liệu nguồn để ép khớp tổng.
+- Giao diện hiển thị luồng đọc nguồn thật của phiên hiện tại. Chưa có dịch vụ tìm kiếm khách online hoặc AI; không hiển thị truy vấn/nguồn tìm kiếm giả.
+
+Kiểm tra: `node --test cancellation.test.cjs promotions.test.cjs standardization.test.cjs`.
