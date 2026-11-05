@@ -1,6 +1,7 @@
 'use strict';
 // Only the local application reads the protected source. No source address or credentials in the browser.
 window.VTHubData=(()=>{
+ if(new URL(location.href).hostname!=='127.0.0.1')return window.VTWebData;
  let startupToken='';
  function capture(){try{const u=new URL(location.href);if(u.hostname==='127.0.0.1'&&/^#[a-f0-9]{64}$/.test(u.hash)){startupToken=u.hash.slice(1);history.replaceState(null,'',u.pathname+u.search);}}catch{}}
  capture();

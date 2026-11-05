@@ -1,3 +1,7 @@
+## Browser access restored, 05/11/2026
+
+The user explicitly authorized direct authenticated browser reads again. Phone and desktop web sign in using the existing OAuth application and the user’s source permissions. Source-provider labels remain absent from the product UI. The installed Windows application keeps its local data service. No public data access or service-account key is added.
+
 # Mô hình dữ liệu đã xác minh qua connector
 
 Source address is configured only inside the local application; it is not sent to browser assets.
