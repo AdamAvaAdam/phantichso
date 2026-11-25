@@ -42,3 +42,12 @@ node test-auth.cjs
 Đã QA trình duyệt với dữ liệu thử riêng trên localhost: đăng nhập/tải, quà tặng hiển thị đúng gross/Sharp net trong Hub, bản đồ BHVer1, tạo nhãn và mở lại giữ nhãn, mở lại Dashboard không có request Sheet. Không commit fixture QA hoặc dữ liệu kinh doanh thật.
 
 GitHub Pages: main/root. secure-server.cjs là phương án Node + HTTPS tùy chọn, hỗ trợ module/khung cùng origin; đọc SECURITY_SETUP.md. Chưa triển khai máy chủ ngoài hoặc AI backend.
+
+
+## Tờ trình mạng kho công khai
+
+Trang `/trinhkho/` chạy độc lập, không yêu cầu đăng nhập. Chủ dữ liệu đã đồng ý công khai tên, mã và tọa độ khách trên GitHub Pages ngày 25/11/2026. Đây là ngoại lệ có chủ đích cho snapshot tại `trinhkho/assets/model.json`; không đưa điện thoại, địa chỉ chi tiết, doanh số từng khách hoặc thông tin đăng nhập vào trang này. Hub chính giữ cơ chế đăng nhập hiện hành.
+
+8 điểm kho từ danh mục nguồn cần xác minh vận hành; 2 ứng viên ưu tiên và 5 vùng đối chứng không phải cam kết mở 15 kho. Tuyến nét đứt chỉ biểu diễn quan hệ, không phải đường xe tải đã kiểm chứng. Snapshot khách không thay thế dữ liệu vận hành cập nhật.
+
+Dữ liệu nền: OpenStreetMap (ODbL, ghi công trên bản đồ), Natural Earth (public domain). Leaflet 1.9.4, BSD-2-Clause.
